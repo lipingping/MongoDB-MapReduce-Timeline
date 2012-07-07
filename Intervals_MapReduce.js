@@ -70,10 +70,10 @@ db.runCommand({
 			return -1;
 		}
 
-		var selected_start = 0;
-		var selected_end = 0;
-
 		var target_idx = binSearch(ivals, 0, ivals.length-1, this.recorded_time);
+
+		if (target_idx == -1)
+			return false;
 
 		var emitValues = {
 			video_id			: this._id,
@@ -104,7 +104,7 @@ db.runCommand({
 			}
 		}
 
-		emit({ id: this.camera_id, start: selectedInterval_start, end: selectedInterval_end}, emitValues);
+		emit({ id: this.camera_id, start: ivals[target_idx].start, end: ivals[target_idx].end}, emitValues);
 	},
 	reduce: function(key, values) {
 
